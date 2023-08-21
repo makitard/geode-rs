@@ -1,0 +1,8 @@
+[package]
+name = "geode"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/makitard/geode-rs"
+
+[dependencies]
+windows = { version = "*", features = ["Win32_System_LibraryLoader", "Win32_Foundation"] }
