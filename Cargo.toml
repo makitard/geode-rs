@@ -3,6 +3,9 @@ name = "geode"
 version = "0.1.0"
 edition = "2021"
 repository = "https://github.com/makitard/geode-rs"
+description = "Rust bindings for the Geode SDK"
+license = "BSL-1.0"
+documentation = "https://docs.rs/geode"
 
 [dependencies]
 windows = { version = "*", features = ["Win32_System_LibraryLoader", "Win32_Foundation"] }
