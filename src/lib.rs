@@ -1,7 +1,7 @@
 //! Rust bindings for the [Geode SDK](https://geode-sdk.org)
-// //! 
+// //!
 // //! ## Usage
-// //! 
+// //!
 
 #![feature(abi_thiscall, stmt_expr_attributes)]
 
@@ -29,7 +29,7 @@ macro_rules! geo_fn {
 }
 
 ///Defines the entry point for the mod.
-///Requires the `windows` crate with the following features: ["Win32_Foundation", "Win32_System_Threading", "Win32_Security"].
+///Requires the `windows` crate with the following features: ["Win32_Foundation", "Win32_System_Threading", "Win32_Security", "Win32_System_LibraryLoader"].
 #[macro_export]
 macro_rules! entry {
     ($($exprs:tt)*) => {
@@ -43,7 +43,7 @@ macro_rules! entry {
             if call_reason == 1 {
                 windows::Win32::System::LibraryLoader::DisableThreadLibraryCalls(
                     windows::Win32::Foundation::HINSTANCE(_module as isize),
-                );
+                ).unwrap();
 
                 windows::Win32::System::Threading::CreateThread(
                     None,
@@ -74,3 +74,4 @@ pub mod prelude;
 mod stl;
 pub mod tulip;
 pub mod utils;
+//pub mod event; not done yet lol

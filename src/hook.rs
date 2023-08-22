@@ -63,11 +63,10 @@ impl Hook {
         };
 
         let display_name = StlString::from_str(display_name);
-        let raw_display_name = &display_name as *const _ as *const ();
 
         unsafe {
             Self(
-                geo_fn!(unsafe extern "C" fn(*const (), *const (), *const (), *const (), *const (), *const ()) -> *const (), "?create@Hook@geode@@SAPAV12@PAVMod@2@PAX1ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABVHandlerMetadata@hook@tulip@@ABVHookMetadata@78@@Z")(owner.0, address as _, detour as _, raw_display_name, &handler_metadata as *const _ as _, &hook_metadata as *const _ as _)
+                geo_fn!(unsafe extern "C" fn(*const (), *const (), *const (), *const (), *const (), *const ()) -> *const (), "?create@Hook@geode@@SAPAV12@PAVMod@2@PAX1ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABVHandlerMetadata@hook@tulip@@ABVHookMetadata@78@@Z")(owner.0, address as _, detour as _, &display_name as *const _ as _, &handler_metadata as *const _ as _, &hook_metadata as *const _ as _)
             )
         }
     }

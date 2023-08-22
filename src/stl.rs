@@ -1,5 +1,6 @@
 //! MSVC C++ STL types
 
+#[derive(Clone, Copy)]
 #[repr(C)]
 pub(crate) struct StlString {
     _bx: StlStringContainer,
@@ -10,10 +11,10 @@ pub(crate) struct StlString {
 impl StlString {
     pub fn from_str(s: &str) -> Self {
         let _bx = if s.len() < 16 {
+            let mut str_ = std::ffi::CString::new(s).unwrap().as_bytes_with_nul().to_vec();
+            str_.resize(16, 0);
             StlStringContainer {
-                _buf: std::ffi::CString::new(s)
-                    .unwrap()
-                    .as_bytes_with_nul()
+                _buf: str_
                     .try_into()
                     .unwrap(),
             }
@@ -31,10 +32,8 @@ impl StlString {
         }
     }
 
-    pub unsafe fn copy_to(&self, dst: *mut Self) {
-        (*dst)._bx = self._bx;
-        (*dst)._mysize = self._mysize;
-        (*dst)._myres = self._myres;
+    pub unsafe fn to_string(self) -> String {
+        std::ffi::CString::from_raw(if self._mysize < 16 { self._bx._buf.as_ptr() as _ } else { self._bx._ptr as _ }).to_string_lossy().to_string()
     }
 
     #[allow(dead_code)]
@@ -127,5 +126,40 @@ impl StlDuration {
                 .duration_since(std::time::SystemTime::UNIX_EPOCH)
                 .unwrap_or_default(),
         )
+    }
+}
+
+//not actually in the stl
+#[repr(C)]
+pub(crate) struct GeodeResult<T: Copy, E: Copy> {
+    union_: GeodeResultUnion<T, E>,
+    m_has_value: bool,
+}
+
+#[repr(C)]
+pub(crate) union GeodeResultUnion<T: Copy, E: Copy> {
+    m_value: T, //wrapped
+    m_error: E,
+    m_empty: () //IDK
+}
+
+impl<T: Copy, E: Copy> GeodeResult<T, E> {
+    pub fn to_result(self) -> Result<T, E> {
+        unsafe {
+            if self.m_has_value {
+                Ok(self.union_.m_value)
+            } else {
+                Err(self.union_.m_error)
+            }
+        }
+    }
+
+    pub fn empty() -> Self {
+        Self {
+            union_: GeodeResultUnion {
+                m_empty: ()
+            },
+            m_has_value: false
+        }
     }
 }

@@ -1,5 +1,3 @@
-//! Use with caution, Log can change at any time without notice.
-
 #![allow(non_snake_case)]
 
 use crate::stl::{StlString, StlTimepoint, StlVector};
@@ -82,6 +80,6 @@ unsafe extern "thiscall" fn ComponentBase_toString(
     this: *const ComponentBaseString,
     out: *mut StlString,
 ) -> *const StlString {
-    (*this).m_item.copy_to(out);
+    *out = (*this).m_item;
     &(*this).m_item as _
 }
