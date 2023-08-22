@@ -2,7 +2,7 @@
 
 #[derive(Clone, Copy)]
 #[repr(C)]
-pub(crate) struct StlString {
+pub struct StlString {
     _bx: StlStringContainer,
     _mysize: usize,
     _myres: usize,
@@ -36,7 +36,6 @@ impl StlString {
         std::ffi::CString::from_raw(if self._mysize < 16 { self._bx._buf.as_ptr() as _ } else { self._bx._ptr as _ }).to_string_lossy().to_string()
     }
 
-    #[allow(dead_code)]
     pub const fn empty() -> Self {
         Self {
             _bx: StlStringContainer { _buf: [0u8; 16] },
@@ -54,7 +53,7 @@ union StlStringContainer {
 }
 
 #[repr(C)]
-pub(crate) struct StlVector<T: ?Sized> {
+pub struct StlVector<T: ?Sized> {
     _myfirst: *const T,
     _mylast: *const T,
     _myend: *const T,
@@ -80,7 +79,6 @@ impl<T> StlVector<T> {
         }
     }
 
-    #[allow(dead_code)]
     pub const fn empty() -> Self {
         Self {
             _myfirst: 0 as _,
@@ -109,7 +107,7 @@ pub(crate) type StlTimepoint = StlDuration;
 
 //this has a generic but geode only uses std::chrono::system_clock::time_point which is duration<long long, ratio<1, 10'000'000>>
 #[repr(C)]
-pub(crate) struct StlDuration {
+pub struct StlDuration {
     _rep: i64, //in nanoseconds / 100
 }
 

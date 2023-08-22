@@ -67,7 +67,7 @@ pub mod loader;
 pub mod log;
 pub mod mod_;
 pub mod prelude;
-mod stl;
+pub mod stl;
 pub mod tulip;
 pub mod utils;
 //pub mod event; not done yet lol

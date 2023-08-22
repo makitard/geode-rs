@@ -1,6 +1,6 @@
 [package]
 name = "geode"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 repository = "https://github.com/makitard/geode-rs"
 description = "Rust bindings for the Geode SDK"
