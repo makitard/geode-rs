@@ -41,10 +41,6 @@ macro_rules! entry {
             _reserved: *const (),
         ) -> u32 {
             if call_reason == 1 {
-                windows::Win32::System::LibraryLoader::DisableThreadLibraryCalls(
-                    windows::Win32::Foundation::HINSTANCE(_module as isize),
-                ).unwrap();
-
                 windows::Win32::System::Threading::CreateThread(
                     None,
                     0,
