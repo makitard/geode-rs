@@ -23,22 +23,20 @@ impl Hook {
     ///    )(this, sender);
     ///}
     ///
-    ///fn main() {
-    ///    geode::entry! {
-    ///        let hook_func = MenuLayer_onMoreGames_hook as usize;
-    ///        let hook = Hook::new(
-    ///            Mod::get(),
-    ///            geode::utils::base() + 0x1919c0, //Address of MenuLayer::onMoreGames
-    ///            hook_func,
-    ///            "cocos2d::ccOnMoreGames",
-    ///            tulip::TulipConvention::Thiscall,
-    ///            tulip::ATY_VOID,
-    ///            vec![tulip::ATY_POINTER, tulip::ATY_POINTER]
-    ///         );
+    ///geode::entry! {
+    ///    let hook_func = MenuLayer_onMoreGames_hook as usize;
+    ///    let hook = Hook::new(
+    ///        Mod::get(),
+    ///        geode::utils::base() + 0x1919c0, //Address of MenuLayer::onMoreGames
+    ///        hook_func,
+    ///        "cocos2d::ccOnMoreGames",
+    ///        tulip::TulipConvention::Thiscall,
+    ///        tulip::ATY_VOID,
+    ///        vec![tulip::ATY_POINTER, tulip::ATY_POINTER]
+    ///     );
     ///
-    ///        Mod::get_mut().add_hook(&hook);
-    ///        //No need to call Mod::enable_hook because the hook gets enabled by default.
-    ///    }
+    ///    Mod::get_mut().add_hook(&hook);
+    ///    //No need to call Mod::enable_hook because the hook gets enabled by default.
     ///}
     ///```
     pub fn new(
