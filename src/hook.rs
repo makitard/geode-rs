@@ -15,7 +15,7 @@ impl Hook {
     ///use geode::prelude::*;
     ///
     ///
-    /// unsafe extern "C" MenuLayer_onMoreGames_hook(this: *const (), sender: *const ()) {
+    ///unsafe extern "C" fn MenuLayer_onMoreGames_hook(this: *const (), sender: *const ()) {
     ///    log(Severity::Info, format!("Hello from {}:{}", file!(), line!()));
     //TODO: make this better
     ///    std::mem::transmute::<_, unsafe extern "thiscall" fn(*const (), *const ())>(
@@ -24,16 +24,18 @@ impl Hook {
     ///}
     ///
     ///geode::entry! {
+    ///    let hook_func = MenuLayer_onMoreGames_hook as usize;
     ///    let hook = Hook::new(
     ///        Mod::get(),
     ///        geode::utils::base() + 0x1919c0, //Address of MenuLayer::onMoreGames
-    ///        MenuLayer_onMoreGames_hook,
+    ///        hook_func,
+    ///        "cocos2d::ccOnMoreGames",
     ///        tulip::TulipConvention::Thiscall,
     ///        tulip::ATY_VOID,
-    ///        vec![tulip::ATY_PTR, tulip::ATY_PTR]
+    ///        vec![tulip::ATY_POINTER, tulip::ATY_POINTER]
     ///     );
     ///
-    ///    Mod::get().add_hook(hook);
+    ///    Mod::get_mut().add_hook(&hook);
     ///    //No need to call Mod::enable_hook because the hook gets enabled by default.
     ///}
     ///```
